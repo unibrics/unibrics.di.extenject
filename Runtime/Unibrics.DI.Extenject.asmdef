@@ -1,0 +1,17 @@
+{
+    "name": "Unibrics.DI.Extenject",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b3625dafe267886428923df2a463e029",
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
