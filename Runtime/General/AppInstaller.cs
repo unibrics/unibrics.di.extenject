@@ -8,7 +8,7 @@
         public override void InstallBindings()
         {
             var startup = new Startup(new ExtenjectService(Container));
-            startup.StartApp();
+            startup.StartSequence();
         }
     }
 }
