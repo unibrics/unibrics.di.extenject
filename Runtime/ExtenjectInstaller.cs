@@ -12,8 +12,8 @@
 
         public override void Install(IServicesRegistry services)
         {
-            services.AddSingleton<ExtenjectWrapper>(typeof(IInjector), typeof(IInstanceProvider), typeof(IResolver));
-            services.AddSingleton<ITickable, TickableProxy>();
+            services.Add<ITickable>().ImplementedBy<TickableProxy>();
+            services.Add(typeof(IInjector), typeof(IInstanceProvider), typeof(IResolver)).ImplementedBy<ExtenjectWrapper>().AsSingleton();
         }
     }
 }
