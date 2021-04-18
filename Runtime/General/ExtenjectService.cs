@@ -28,6 +28,7 @@
             {
                 foreach (var descriptor in descriptors)
                 {
+                    descriptor.Validate();
                     var binding = diContainer.Bind(descriptor.InterfaceTypes);
                     if (descriptor.ImplementationObject != null)
                     {
