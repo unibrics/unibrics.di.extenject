@@ -15,11 +15,25 @@
             try
             {
                 startup.Prepare();
-                ProjectContext.PostInstall += () => startup.Start();
+                ProjectContext.PostInstall += Launch;
             }
             catch (Exception e)
             {
                 Debug.LogError($"Error occured during App Setup:");
+                Debug.LogError(e);
+                throw;
+            }
+        }
+
+        private void Launch()
+        {
+            try
+            {
+                startup.Start();
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Error occured during App Launch:");
                 Debug.LogError(e);
                 throw;
             }

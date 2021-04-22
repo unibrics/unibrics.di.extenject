@@ -39,7 +39,7 @@
                     var from = binding.To(descriptor.ImplementationType);
                     if (descriptor.Scope == ServiceScope.Singleton)
                     {
-                        from.AsSingle();
+                        from.AsSingle().NonLazy();
                     }
                     else
                     {

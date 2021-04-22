@@ -34,7 +34,7 @@
             }
             catch (Exception e)
             {
-                Debug.LogError(e);
+                //Debug.LogError(e);
                 throw;
             }
         }
@@ -47,7 +47,7 @@
             }
             catch (Exception e)
             {
-                Debug.LogError(e);
+                //Debug.LogError(e);
                 throw;
             }
         }
@@ -60,7 +60,7 @@
             }
             catch (Exception e)
             {
-                Debug.LogError(e);
+                //Debug.LogError(e);
                 throw;
             }
         }
