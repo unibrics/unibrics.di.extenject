@@ -7,16 +7,19 @@
 
     public class AppInstaller : MonoInstaller
     {
+        private Startup startup;
+        
         public override void InstallBindings()
         {
-            var startup = new Startup(new ExtenjectService(Container));
+            startup = new Startup(new ExtenjectService(Container));
             try
             {
-                startup.StartSequence();
+                startup.Prepare();
+                ProjectContext.PostInstall += () => startup.Start();
             }
             catch (Exception e)
             {
-                Debug.LogError($"Error occured during App Launch:");
+                Debug.LogError($"Error occured during App Setup:");
                 Debug.LogError(e);
                 throw;
             }
