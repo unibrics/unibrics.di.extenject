@@ -1,5 +1,6 @@
 ﻿namespace Unibrics.Di.Extenject
 {
+    using System.Collections.Generic;
     using Core.DI;
     using Core.Launchers;
 
@@ -7,7 +8,7 @@
     {
         [Inject]
         public IInstanceProvider InstanceProvider { get; set; }
-        
+
         public void Launch()
         {
             InstanceProvider.GetInstance<TickableProxy>();
