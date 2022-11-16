@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Core.DI;
     using Core.Services;
     using Zenject;
@@ -39,7 +40,11 @@
                     var from = binding.To(descriptor.ImplementationType);
                     if (descriptor.Scope == ServiceScope.Singleton)
                     {
-                        from.AsSingle().NonLazy();
+                        var bind = from.AsSingle();
+                        if (descriptor.InterfaceTypes.All(type => !type.IsGenericTypeDefinition))
+                        {
+                            bind.NonLazy();
+                        }
                     }
                     else
                     {
