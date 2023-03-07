@@ -12,7 +12,7 @@ namespace Unibrics.Di.Extenject.SceneContext
     {
         public override void InstallBindings()
         {
-            var projectContextContainer = Container.ParentContainers[0];
+            var projectContextContainer = ProjectContext.Instance.Container;
             var diService = new ExtenjectService(Container);
 
             foreach (var installer in GetInstallers(projectContextContainer))

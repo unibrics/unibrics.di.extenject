@@ -1,17 +1,32 @@
 ﻿namespace Unibrics.Di.Extenject
 {
     using System;
+    using System.Linq;
     using Core.DI;
     using UnityEngine;
+    using UnityEngine.SceneManagement;
     using Zenject;
 
     public class ExtenjectWrapper : IInjector, IInstanceProvider, IResolver
     {
-        private readonly DiContainer container;
+        private DiContainer container;
 
         public ExtenjectWrapper(DiContainer container)
         {
             this.container = container;
+        }
+
+        /// <summary>
+        /// In case this wrapper is created via container, we're trying to replace default context with scene context.
+        /// This will allow us to resolve dependencies in scene context too
+        /// </summary>
+        [Zenject.Inject]
+        public void OnInjected(SceneContextRegistry registry)
+        {
+            if (registry.SceneContexts.Any())
+            {
+                container = registry.SceneContexts.First().Container;
+            }
         }
 
         public void InjectTo(object o)
