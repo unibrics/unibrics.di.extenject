@@ -15,7 +15,15 @@
             try
             {
                 startup.Prepare();
-                ProjectContext.PostInstall += Launch;
+                var sceneContext = GetComponentInParent<Zenject.SceneContext>();
+                if (sceneContext)
+                {
+                    sceneContext.PostInstall += Launch;
+                }
+                else
+                {
+                    ProjectContext.PostInstall += Launch;
+                }
             }
             catch (Exception e)
             {
