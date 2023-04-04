@@ -5,11 +5,16 @@ namespace Unibrics.Di.Extenject.SceneContext
     using Core;
     using Core.DI.SceneContext;
     using Tools;
+    using UnityEngine;
     using UnityEngine.SceneManagement;
     using Zenject;
+    using Types = Tools.Types;
 
     public class SceneInstaller : MonoInstaller
     {
+        [SerializeField]
+        private string sceneName;
+        
         public override void InstallBindings()
         {
             var parentContainer = Container;
@@ -23,10 +28,10 @@ namespace Unibrics.Di.Extenject.SceneContext
             diService.PrepareServices();
         }
 
-        private static IEnumerable<SceneContextInstaller> GetInstallers(IInstantiator container) => Types.AnnotatedWith<InstallAttribute>()
+        private IEnumerable<SceneContextInstaller> GetInstallers(IInstantiator container) => Types.AnnotatedWith<InstallAttribute>()
             .WithParent(typeof(SceneContextInstaller))
             .TypesOnly()
             .Select(type => (SceneContextInstaller)container.Instantiate(type))
-            .Where(installer => installer.SceneName.Equals(SceneManager.GetActiveScene().name));
+            .Where(installer => installer.SceneName.Equals(sceneName));
     }
 }
