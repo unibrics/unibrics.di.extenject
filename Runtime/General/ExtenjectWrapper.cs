@@ -25,7 +25,11 @@
         {
             if (registry.SceneContexts.Any())
             {
-                container = registry.SceneContexts.First().Container;
+                foreach (var context in registry.SceneContexts)
+                {
+                    Debug.Log($"scene context: {context} {context.gameObject.name}");
+                }
+                container = registry.SceneContexts.Last().Container;
             }
         }
 
