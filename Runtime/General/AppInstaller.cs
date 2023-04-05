@@ -1,17 +1,21 @@
 ﻿namespace Unibrics.Di.Extenject
 {
     using System;
+    using System.Collections.Generic;
     using Core;
     using UnityEngine;
     using Zenject;
 
     public class AppInstaller : MonoInstaller
     {
+        [SerializeField]
+        private List<string> modulesToExclude;
+        
         private Startup startup;
         
         public override void InstallBindings()
         {
-            startup = new Startup(new ExtenjectService(Container));
+            startup = new Startup(new ExtenjectService(Container), modulesToExclude);
             try
             {
                 startup.Prepare();
