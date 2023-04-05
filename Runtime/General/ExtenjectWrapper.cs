@@ -4,7 +4,6 @@
     using System.Linq;
     using Core.DI;
     using UnityEngine;
-    using UnityEngine.SceneManagement;
     using Zenject;
 
     public class ExtenjectWrapper : IInjector, IInstanceProvider, IResolver
@@ -25,7 +24,7 @@
         {
             if (registry.SceneContexts.Any())
             {
-                container = registry.SceneContexts.First().Container;
+                container = registry.SceneContexts.Last().Container;
             }
         }
 
