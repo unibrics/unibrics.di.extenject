@@ -1,7 +1,7 @@
 {
   "name": "unibrics.di.extenject",
   "displayName": "Unibrics Extenject DI",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "unity": "2021.1",
   "description": "Extenject DI implementation",
   "dependencies": {
