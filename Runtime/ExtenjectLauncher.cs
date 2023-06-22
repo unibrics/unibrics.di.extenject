@@ -4,12 +4,12 @@
     using Core.DI;
     using Core.Launchers;
 
-    public class ExtenjectLauncher : IModuleLauncher
+    public class ExtenjectLauncher : ModuleLauncher
     {
         [Inject]
         public IInstanceProvider InstanceProvider { get; set; }
 
-        public void Launch()
+        public override void Launch()
         {
             InstanceProvider.GetInstance<TickableProxy>();
         }

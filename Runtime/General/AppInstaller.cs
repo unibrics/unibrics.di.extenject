@@ -12,6 +12,8 @@
         private List<string> modulesToExclude;
         
         private Startup startup;
+
+        private Zenject.SceneContext sceneContext;
         
         public override void InstallBindings()
         {
@@ -19,7 +21,7 @@
             try
             {
                 startup.Prepare();
-                var sceneContext = GetComponentInParent<Zenject.SceneContext>();
+                sceneContext = GetComponentInParent<Zenject.SceneContext>();
                 if (sceneContext)
                 {
                     sceneContext.PostInstall += Launch;
@@ -34,6 +36,18 @@
                 Debug.LogError($"Error occured during App Setup:");
                 Debug.LogError(e);
                 throw;
+            }
+        }
+
+        private void OnDestroy()
+        {
+            if (sceneContext)
+            {
+                sceneContext.PostInstall -= Launch;
+            }
+            else
+            {
+                ProjectContext.PostInstall -= Launch;
             }
         }
 
