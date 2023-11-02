@@ -34,6 +34,10 @@
                     if (descriptor.ImplementationObject != null)
                     {
                         binding.FromInstance(descriptor.ImplementationObject);
+                        if (descriptor.QueueForInjection)
+                        {
+                            diContainer.QueueForInject(descriptor.ImplementationObject);
+                        }
                         continue;
                     }
 
