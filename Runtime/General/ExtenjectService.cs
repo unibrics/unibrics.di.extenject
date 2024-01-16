@@ -66,5 +66,15 @@
         {
             descriptors.Add(descriptor);
         }
+
+        ServiceDescriptor IServicesRegistry.Get(Predicate<ServiceDescriptor> filter)
+        {
+            return descriptors.FirstOrDefault(descriptor => filter(descriptor));
+        }
+
+        void IServicesRegistry.Drop(ServiceDescriptor descriptor)
+        {
+            descriptors.Remove(descriptor);
+        }
     }
 }
