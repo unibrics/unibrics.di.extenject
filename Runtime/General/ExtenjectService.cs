@@ -12,9 +12,11 @@
     class ExtenjectService : IDependencyInjectionService
     {
         public IInstanceProvider InstanceProvider => new ExtenjectWrapper(diContainer);
-        
-        private readonly DiContainer diContainer;
 
+        public IResolver Resolver => new ExtenjectWrapper(diContainer);
+
+        private readonly DiContainer diContainer;
+        
         private readonly List<ServiceDescriptor> descriptors = new List<ServiceDescriptor>();
 
         public ExtenjectService(DiContainer diContainer)

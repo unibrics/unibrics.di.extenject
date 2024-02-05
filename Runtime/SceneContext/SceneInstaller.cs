@@ -3,6 +3,7 @@ namespace Unibrics.Di.Extenject.SceneContext
     using System.Collections.Generic;
     using System.Linq;
     using Core;
+    using Core.DI;
     using Core.DI.SceneContext;
     using Tools;
     using UnityEngine;
@@ -14,21 +15,29 @@ namespace Unibrics.Di.Extenject.SceneContext
     {
         [SerializeField]
         private string sceneName;
-        
+
+        private IDependencyInjectionService diService;
+
         public override void InstallBindings()
         {
             var parentContainer = Container;
-            var diService = new ExtenjectService(Container);
+            diService = new ExtenjectService(Container);
 
             foreach (var installer in GetInstallers(parentContainer))
             {
                 installer.Install(diService);
             }
-            
+
             diService.PrepareServices();
         }
 
-        private IEnumerable<SceneContextInstaller> GetInstallers(IInstantiator container) => Types.AnnotatedWith<InstallAttribute>()
+        public override void Start()
+        {
+            diService.Resolver.Resolve<IInitializablesRegistry>().StartNewInitializables(diService);
+        }
+
+        private IEnumerable<SceneContextInstaller> GetInstallers(IInstantiator container) => Types
+            .AnnotatedWith<InstallAttribute>()
             .WithParent(typeof(SceneContextInstaller))
             .TypesOnly()
             .Select(type => (SceneContextInstaller)container.Instantiate(type))
