@@ -32,8 +32,7 @@ namespace Unibrics.Di.Extenject.SceneContext
             }
 
             diService.Add(typeof(IResolver), typeof(IInstanceProvider), typeof(IInjector)).ImplementedByInstance(new ExtenjectWrapper(Container));
-            diService.Add<IExecutor>().ImplementedBy<Executor>().AsTransient();
-            diService.Add(typeof(ILazyGetter<>)).ImplementedBy(typeof(Core.DI.LazyInject<>)).AsTransient();
+            diService.InstallCoreComponents();
             diService.PrepareServices();
         }
 
