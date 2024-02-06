@@ -5,11 +5,14 @@ namespace Unibrics.Di.Extenject.SceneContext
     using Core;
     using Core.DI;
     using Core.DI.SceneContext;
+    using Core.Execution;
+    using Core.Services;
     using Tools;
     using UnityEngine;
     using UnityEngine.SceneManagement;
     using Zenject;
     using Types = Tools.Types;
+    
 
     public class SceneInstaller : MonoInstaller
     {
@@ -20,14 +23,17 @@ namespace Unibrics.Di.Extenject.SceneContext
 
         public override void InstallBindings()
         {
-            var parentContainer = Container;
+            var par = Container;
             diService = new ExtenjectService(Container);
 
-            foreach (var installer in GetInstallers(parentContainer))
+            foreach (var installer in GetInstallers(par))
             {
                 installer.Install(diService);
             }
 
+            diService.Add(typeof(IResolver), typeof(IInstanceProvider), typeof(IInjector)).ImplementedByInstance(new ExtenjectWrapper(Container));
+            diService.Add<IExecutor>().ImplementedBy<Executor>().AsTransient();
+            diService.Add(typeof(ILazyGetter<>)).ImplementedBy(typeof(Core.DI.LazyInject<>)).AsTransient();
             diService.PrepareServices();
         }
 
@@ -41,6 +47,7 @@ namespace Unibrics.Di.Extenject.SceneContext
             .WithParent(typeof(SceneContextInstaller))
             .TypesOnly()
             .Select(type => (SceneContextInstaller)container.Instantiate(type))
+            .OrderByDescending(installer => installer.Priority)
             .Where(installer => installer.SceneName.Equals(sceneName));
     }
 }
