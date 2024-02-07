@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Core;
+    using Core.DI.Environment;
     using UnityEngine;
     using Zenject;
 
@@ -24,7 +25,7 @@
         
         public override void InstallBindings()
         {
-            startup = new Startup(new ExtenjectService(Container), ShouldInclude);
+            startup = new Startup(GetEnvironment(), new ExtenjectService(Container), ShouldInclude);
             try
             {
                 startup.Prepare();
@@ -44,6 +45,17 @@
                 Debug.LogError(e);
                 throw;
             }
+        }
+
+        private IEnvironment GetEnvironment()
+        {
+            var provider = GetComponent<EnvironmentProvider>();
+            if (provider)
+            {
+                return provider.GetEnvironment();
+            }
+
+            return new DefaultEnvironment();
         }
 
         private bool ShouldInclude(ModuleDescriptor descriptor)
