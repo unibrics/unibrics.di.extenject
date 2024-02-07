@@ -2,14 +2,21 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Core;
     using UnityEngine;
     using Zenject;
 
     public class AppInstaller : MonoInstaller
     {
-        [SerializeField]
+        [SerializeField, Tooltip("Specify module tags to NOT install. Option has lowest priority")]
+        private List<string> tagsToExclude;
+        
+        [SerializeField, Tooltip("Specify module ids to NOT install")]
         private List<string> modulesToExclude;
+
+        [SerializeField, Tooltip("Specify module ids to install. Option has highest priority and will overwrite tag")]
+        private List<string> modulesToInclude;
         
         private Startup startup;
 
@@ -17,7 +24,7 @@
         
         public override void InstallBindings()
         {
-            startup = new Startup(new ExtenjectService(Container), modulesToExclude);
+            startup = new Startup(new ExtenjectService(Container), ShouldInclude);
             try
             {
                 startup.Prepare();
@@ -37,6 +44,21 @@
                 Debug.LogError(e);
                 throw;
             }
+        }
+
+        private bool ShouldInclude(ModuleDescriptor descriptor)
+        {
+            if (descriptor.Id != null && modulesToInclude.Contains(descriptor.Id))
+            {
+                return true;
+            }
+
+            if (descriptor.Id != null && modulesToExclude.Contains(descriptor.Id))
+            {
+                return false;
+            }
+
+            return tagsToExclude.All(tag => !descriptor.Tags.Contains(tag));
         }
 
         private void OnDestroy()

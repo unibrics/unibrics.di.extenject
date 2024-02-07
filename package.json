@@ -1,12 +1,12 @@
 {
   "name": "unibrics.di.extenject",
   "displayName": "Unibrics Extenject DI",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "unity": "2021.1",
   "description": "Extenject DI implementation",
   "dependencies": {
     "com.svermeulen.extenject" : "9.2.0-stcf3",
-    "unibrics.core": "0.4.1"
+    "unibrics.core": "0.5.0"
   },
   "keywords": [
     "unibrics"
